@@ -1,39 +1,46 @@
 # 07 - Next session
 
-Where session 1 left it: the disc identified and read (three programs, a
-TBIOS in modules, the start's script decrypted), the programs' surface
-mapped, discovery clean on all three, the kit able to take them (the bound
-stub, the composed TBIOS, the far calls told from switches, signed bounds),
-the text read to its last byte and counted, the oracle running the game and
-its opening's CD-DA -- and the reason for MAME's "Runs too fast" found: the
-game's pace is its CPU's.
+Where session 2 left it: OPNG, ABEL and TBIOS recompiled and self-tested,
+run one after another as START runs them; the logo, the title and its menu
+and the throne room the oracle's pixel for pixel; the whole opening played to
+its end and back to the title; the timer BIOS, the absent MIDI card and the
+palette's registers answered as MAME has them (`00-sessions.md`).
 
-Goal: **the start of OPNG, recompiled and drawn** (`06-attack-plan.md`).
+Goal: **to the first dungeon, and the pace** -- where the only gameplay video
+starts, so the user can hold the port (and MAME) against it by eye
+(`05-open-questions.md` 1).
 
-1. **The first instruction of OPNG** on `fmtowns -ramsize 4M`
-   (`tools/oracle.py --dump-write`, as 4D Driving's session 3): the
-   registers, the descriptors, the segment's limit; the TBIOS in memory
-   against `python -m fmtownskit.tbiosld build/disc/TBIOS/TBIOS.INI --check`
-   at that moment (only the work areas should differ, fewer of them); the
-   runtime's profile for this RUN386.
-2. **Recompile OPNG and TBIOS** (`python -m fmtownskit.recomp`; TBIOS from
-   the composed image, `--raw` with its table 0x20-0x200): the overlapping
-   instructions; the self-test in slices.
-3. **The runtime's first frames**: the Family Soft logo (20 s), the title
-   and its menu (25 s), against the oracle's snapshots pixel for pixel.
-4. **The pace, first look**: the clocks the runtime counts for the logo's
-   and the title's waits (are those timed by the YM's timer, or by the CPU
-   too?), against the oracle's seconds.
+1. **The way to the first dungeon**, found on the port (60 s of the game in
+   about a second headless, its frames the oracle's): from the throne room,
+   the inputs that get there, written down as `--input` for both (the
+   oracle's in seconds, the port's in frames: the port loads sooner, so its
+   times are its own); then the same inputs on the oracle, the frames held
+   against each other where a room stands still.
+2. **The user plays it in the window** (`build/rt/abel`, X = A, Z = B, Enter
+   = Run): how the walk and the scroll look against the video. The port's
+   386 counts the datasheet's clocks, as MAME's, so it should look as MAME
+   does -- "too fast". Then a clock rate for the guest (`X86_TICK`'s budget
+   against real time, a switch, MAME's kept for comparison), set by the
+   user's eye on the video; the 16-pixel scroll steps a second, counted on
+   both, are the number to write down.
+3. **ENDG**: its start read on the oracle (its physical base and limit; the
+   way there is the game's end, or a dump at ENDG run by hand if the oracle
+   can get there), recompiled with the same scans; START's `if errorlevel 1`
+   after ABEL.
+4. **The sound**: the opening's CD-DA (track 02, 53.9 s on the oracle; the
+   port's `CD-DA 19828 to 24627` at frame 2193) against MAME's WAV
+   (`tools/wavmatch.py` from 4D Driving); the game's FM and PCM music
+   (Euphony, the kit's first game that plays the YM3438 for real) against
+   MAME's WAV, then by ear.
+5. Worth doing on the way: the loading screen's console text
+   (`05-open-questions.md` 14), the throne room's fade (15), the seeds' scans
+   into the kit (17).
 
-Worth doing on the way: the oracle to the first dungeon (the only gameplay
-video starts there; the user compares by eye how it moves, for
-`05-open-questions.md` 1) -- the inputs that get there, written down; what
-MAME answers at ports 0xE71 and 0x4A1.
-
-Tools: `tools/oracle.py` (`fmtowns` with 4 MB by default; `--at`, `--input
-T0-T1:BUTTONS` -- the title: `30-30.2:A,38-38.2:A` for CD PLAY, GAME START;
-`26-26.15:Down,27-27.15:Down,28-28.15:Down,29.5-29.7:A` for OPENING --,
-`--dump`, `--dump-write`, `--wav`, `--sound-log`, `--lua`, `--debug` for a
-Lua script's debugger commands), `tools/abelfiles.py` (text, maps, TIFFs).
-Kit work runs from `D:\Homebrew6` (the submodule is the last commit, 2b785bc):
-`python -m fmtownskit.exp|x86map|tbiosld|recomp.discover ...`.
+Tools: `tools/recomp.sh` (`KIT=D:/Homebrew6` for the kit being worked on;
+`--out build/stest --optest --selftest 3 --jobs 16` for the self-test),
+`build/rt/abel` (`11-runtime.md`; A at frames 840 and 1320 is CD PLAY, GAME
+START), `tools/framematch.py`, `tools/oracle.py` (`--input 30-30.2:A,38-38.2:A`
+to the game; `--dump-write`, `--trace-calls`, `--lua tools/ioread.lua`),
+`tools/abelfiles.py`. The port builds against the kit's runtime given by
+`-DFMT_RUNTIME` (the working kit until its commit is pulled into the
+submodule).

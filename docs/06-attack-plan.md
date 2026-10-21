@@ -44,14 +44,17 @@ What is new, and why the shape still holds:
 
 ## The road
 
-1. **The start, read on the oracle**: `--dump-write` at each program's
+1. **The start, read on the oracle** (OPNG's and ABEL's done, session 2;
+   ENDG's to do): `--dump-write` at each program's
    first instruction (OPNG's, then ABEL's: the registers RUN386 hands over,
    the descriptors, the segment's limit, the composed TBIOS against memory
    at that moment); the profile for this RUN386.
-2. **Recompile** OPNG first (605 functions: the logo, the title, the
+2. **Recompile** (OPNG, ABEL and TBIOS done, session 2: 64,131 self-test
+   vectors, 0 failures; ENDG to do) OPNG first (605 functions: the logo, the title, the
    prologue, the CD-DA), then ABEL, then ENDG; TBIOS from `tbiosld`'s
    image; the self-test in slices; the overlapping copies.
-3. **The runtime, headless**: the Family Soft logo, the title and its menu,
+3. **The runtime, headless** (done to the throne room, session 2, but the
+   CD-DA's WAV and the prologue's frames): the Family Soft logo, the title and its menu,
    the prologue pixel for pixel against the oracle (`tools/framematch.py`
    from 4D Driving); the CD-DA of OPENING against MAME's WAV (track 02 at
    53.9 s); then ABEL from GAME START to the throne room (60 s), held
@@ -88,10 +91,10 @@ What is new, and why the shape still holds:
 | a P3 behind an MZ stub | `exp` (done, session 1) |
 | a TBIOS in "MQ" modules, laid out by TBIOSLD's rules | `tbiosld` (done, session 1); the recompiler's `--raw` over its image (next) |
 | MetaWare's switches told from far calls; a compare's bound dropped when the index is rewritten; signed bounds | `x86map`, `recomp.discover` (done, session 1) |
-| overlapping instructions in one function's body | `recomp.emit` (to test) |
-| three programs one after another under one code selector | `runtime/towns_dos` (EXEC, errorlevel) or the port's main |
+| overlapping instructions in one function's body | `recomp.emit` (compiled and self-tested, session 2) |
+| three programs one after another under one code selector | the port's main runs START's script; the kit's `run386_load`, `run386_end`, `x86_park` (done for OPNG and ABEL, session 2) |
 | the guest's clock rate against real time, calibrated | `runtime/towns_cpu`, `towns.h` (the profile's clock) |
-| ports 0xE70/0xE71, 0x4A0/0x4A1 as MAME answers them | `towns`, `runtime/towns_io` |
+| ports 0xE70/0xE71, 0x4A0/0x4A1 as MAME answers them | `runtime/towns_io`: 0xFF where MAME has no reader (done, session 2) |
 | the YM3438 played for real (FM music) | `runtime/towns_sound` (held against MAME's WAV) |
 
 ## The risks
