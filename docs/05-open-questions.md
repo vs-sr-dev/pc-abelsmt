@@ -45,6 +45,18 @@
    is paced by something real-time (*inferred*: the timer BIOS, as OPNG's
    waits; ABEL calls int 97h too), and only the CPU-paced part, the walk and
    the scroll, wants the guest's clock slowed.
+   *Session 3, answered for the port*: the kit has a rate for the CPU
+   (`--cpu PCT`, F5/F6 in the window, `11-runtime.md`), and **the user set it
+   by eye at 35%** -- an estimate against the video, not a specification:
+   the walk and the scroll as in the video. ABEL times a map's
+   drawing at its start and makes each step of the walk wait as long, so the
+   walk keeps the scroll's pace on any machine -- once the rate is the run's
+   from the start (slowed in the game, the walk kept a fast machine's wait:
+   the user's first play). The window starts at 35%. Still open: why ABEL's
+   measure reads 3 ticks on the oracle and 2 here at the same speed, and
+   whether 35% (5.6 MHz of MAME's clocks) says something of the real
+   machine's wait states or of the video's emulator (a real Towns or not, the
+   video does not say).
 2. **Which TBIOS module answers what**: the modules (V31L31 graphic and
    sound, V31L35 the rest) against the one-file V31L31 92/11/11 of the
    first two games -- the same functions at other offsets, or other code.
@@ -69,9 +81,11 @@
    other menu items?).
 5. **The three programs in one port** -- *OPNG and ABEL, session 2*: the
    port runs START's script itself, on one machine (`11-runtime.md`); OPNG's
-   errorlevel 0 for CD PLAY, GAME START. To do: ENDG (recompiled, its start
-   read on the oracle: its physical base and limit), and OPNG's errorlevel for
-   LOAD (*inferred*: 1 or more, START's `if errorlevel 1`).
+   errorlevel 0 for CD PLAY, GAME START. *ENDG, session 3*: its start read
+   on the oracle (ABEL made to end at once, `tools/abelquit.lua`; OPNG's
+   machine), recompiled, run after ABEL's errorlevel 0. To do: OPNG's
+   errorlevel for LOAD (*inferred*: 1 or more, START's `if errorlevel 1`),
+   and ENDG reached by the game's own end.
 6. **HDD PLAY and HDD INSTALL**: the title copies the data to drive D: (20
    MB). The port reads the disc image; the menu's other items to keep,
    hide or answer.
@@ -94,7 +108,10 @@
 9. **The music**: Euphony's `.EUP` scores, the `.FMB`/`.PMB` banks, the
    driver that plays them on the YM3438 and the RF5C68 (and the MIDI card):
    what the runtime's chips must do for it (the first FM-heavy game of the
-   kit: 4D Driving played none).
+   kit: 4D Driving played none). *Session 3*: **the user's ear on the port's
+   window: "the sound is perfect"** (their play of the window, the opening
+   into the game). No WAV held against MAME's yet; worth it only
+   if a difference is heard.
 10. **The pad**: the game reads the pads at 0x4D0/0x4D2 itself; which
     buttons do what (A, B, Run, Select), and the keyboard (int 90h through
     FORRBIOS) if it uses one.
@@ -120,7 +137,8 @@
     the host's terminal and leaves the screen as OPNG left it. Who draws it
     on the Towns (DOS's CON through the BIOS, *inferred*) and whether the port
     should (a few seconds, then the game's own screen).
-15. **The throne room's fade** (session 2): the oracle's snapshot at 60 s,
+15. **The throne room's fade** (session 2; and ENDG's galaxy at 248 s,
+    session 3: one palette entry, the twinkling stars, one step apart): the oracle's snapshot at 60 s,
     inside the fade in, differs in 5.2% of its pixels from the nearest
     runtime frame; the room after it is the same pixel for pixel. A step of
     the fade the runtime does not show, or MAME's partial update when a

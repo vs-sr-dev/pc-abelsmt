@@ -101,3 +101,49 @@ session's kit commit, on e4c5334).
   `python - <<EOF`): fixed with a script written by the Write tool.
 
 fmtownskit at f5cc3cf (the session's kit commit, pulled into the submodule).
+
+## Session 3 (2026-10-22/23): the ending, the pace, a play recorded
+
+* **The sound, by the user's ear: "perfect"** (the window, the opening into
+  the game); no WAV comparison needed unless a difference is heard.
+* **ENDG's start read on the oracle without playing the game**:
+  `tools/abelquit.lua` ends ABEL three instructions in with errorlevel 0, so
+  START runs `ENDG 429266408`; stopped at its first write (47.963 s): OPNG's
+  machine (physical 0x50000, limit 0x376FFF), the image the file's byte for
+  byte, TBIOS with the same leftovers as at ABEL's start, the tail ` 429266408`
+  (`11-runtime.md`).
+* **ENDG recompiled** (`09-recompiler.md`): 623 functions; its seeds found
+  before it ran, OPNG's and ABEL's library looked for by its code with the
+  numbers masked, then session 2's rules: 47 seeds, one of them put back after
+  the first run; then the whole ending ran, more than 4 minutes, with nothing
+  missing. **70,084 self-test vectors, 0 failures**. **The ending against the
+  oracle: 125 snapshots of 126 the same pixel for pixel** (the one left: one
+  palette entry of the galaxy's twinkling stars, one step apart).
+* **The second program's first 23 s stood still**: the kit set the CPU's
+  count to 0 when it loaded a program, so ABEL's code ran while the machine's
+  time waited for it to catch up with OPNG's 22.8 s. Fixed in the kit; the
+  throne room still the oracle's pixel for pixel.
+* **A rate for the CPU** (`05-open-questions.md` 1): `--cpu PCT`, F5/F6/F7 in
+  the window; the devices, the timers and the sound keep their time. At 50%
+  the throne room scrolls at half the pace, the timer-paced waits unchanged.
+* **A play recorded and played again**: `--record FILE` in the window (the
+  pad and the rate by frame, DOS's clock fixed at the start: `--clock`),
+  `--play FILE` headless or in the window, frame for frame the same.
+* **The pace, set by the user's eye: 35%** (an estimate against the video,
+  not a specification of the machine). The first play (rate changed in
+  the game) walked "much faster" without scrolling than with; read with
+  `--profile`, the cause is the game's own: **ABEL times a map's drawing at
+  its start and makes every step of the walk wait as long**, so the walk
+  keeps the scroll's pace on any machine -- if the machine's speed is the one
+  it measured. At 35% from the start, **the user: right**. The window now
+  starts at 35% (headless stays at MAME's 100%). The measure reads 3 ticks on
+  the oracle, 2 here: *open* (`05-open-questions.md` 1).
+* **fmtownskit** (`10-fmtownskit.md`): the count across programs, the CPU's
+  rate, the window's keys for it, the held pad, DOS's clock from a given
+  moment, a count of the accesses for profiling. The first two games' 60 s
+  the same, byte for byte, frames, sound and log.
+* The heredoc trap struck three more times (C strings and Markdown with
+  backslashes through `python - <<EOF`): caught each time before a build or
+  a commit.
+
+fmtownskit at 6e30773 (the session's kit commit, pulled into the submodule).

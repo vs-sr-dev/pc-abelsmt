@@ -1,5 +1,5 @@
 #!/bin/sh
-# The port's recompile (docs/09-recompiler.md): OPNG and ABEL under code selector 0x0C, TBIOS
+# The port's recompile (docs/09-recompiler.md): OPNG, ABEL and ENDG under code selector 0x0C, TBIOS
 # (composed from the disc's modules by fmtownskit.tbiosld) under 0x110, into build/game.
 #
 #     sh tools/recomp.sh            # from the port's directory; KIT=... for a kit being worked on
@@ -30,6 +30,13 @@ OPNG=1d0,2180,21ab8,21b6c,21c20,21cd4,21e44,21f58,2206c,22180,22294,223a8,224bc,
 # its data 3241 and 7282)
 ABEL=76c,3241,7282,c230,c2c0,c350,c3fc,13044,19c70,239b0,23a70,2b50c,389a4,3ed0c,3edf4,3f740,3f8ac,42b54,43590,43a5c,43ce0,43e60,45b50,45b9c,45be8,46198,46440,46658,47e83,47e8d,47e97,47ea1,47eab,47eb5,47ebf,47ec9
 
+# ENDG: OPNG's and ABEL's library and drivers found again by their code (the instructions alike,
+# numbers masked): the timer BIOS's callbacks (c558...c774, 11f4, de74, 504), the table of eight
+# handlers at 0x26CB8 (c8e4...d070), MetaWare's helpers at prologues pointed at by immediates
+# (e7dc...13ff4), the far stubs (16540, 1658c, 165d8), the IRQ handlers (17194, 17228), the
+# MIDI driver's "none" (16eec) and 173ac, the int 97h driver's slot trampolines (18e63 + 10*n)
+ENDG=504,11e7,11f4,12ea,c558,c60c,c6c0,c774,c8e4,c9f8,cb0c,cc20,cd34,ce48,cf5c,d070,de74,e7dc,e85c,e8dc,e9b0,fb6c,fc54,fed0,105a0,105c4,1070c,12f88,13af0,13bf0,13e74,13ff4,16540,1658c,165d8,16eec,17194,17228,173ac,18e63,18e6d,18e77,18e81,18e8b,18e95,18e9f,18ea9
+
 # TBIOS, beyond its entry table and the modules' records: the graphic module's callbacks kept in
 # its frame (gs:[ebp+n]) from immediates and from the tables at 0x34BC, 0x5234, 0x5404, 0x55D8,
 # 0x6158, 0x678C (128 entries), 0x7B14 (22), 0x7D50, 0xADD8, 0xB00C, 0xE7C8; the routines it
@@ -40,4 +47,5 @@ cd "$KIT"
 python -m fmtownskit.recomp --out "$PORT/$OUT" \
     --exp "opng=$PORT/build/disc/ABEL/OP/OPNG.EXE@0c+$OPNG" \
     --exp "abel=$PORT/build/disc/ABEL/ABEL.EXE@0c+$ABEL" \
+    --exp "endg=$PORT/build/disc/ABEL/ED/ENDG.EXE@0c+$ENDG" \
     --raw "tbios=$PORT/build/tbios/TBIOS.IMG@110:20-1e0+$RECORDS,$TBIOS" "$@"

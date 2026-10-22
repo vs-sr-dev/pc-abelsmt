@@ -6,12 +6,12 @@ The programs' code and TBIOS's, recompiled from 386 to C++ by fmtownskit
 emitter's checks; this file is what this disc asked.
 
 ```sh
-sh tools/recomp.sh          # KIT=D:/Homebrew6 for a kit being worked on
+sh tools/recomp.sh          # KIT=DIR (the one holding fmtownskit/) for a kit being worked on
 ```
 
 `tools/recomp.sh` composes TBIOS from the disc's modules (`fmtownskit.tbiosld
---out`) and runs the recompiler on three modules: **OPNG and ABEL under code
-selector 0x0C** (one at a time at run time, `11-runtime.md`), **TBIOS under
+--out`) and runs the recompiler on four modules: **OPNG, ABEL and ENDG under
+code selector 0x0C** (one at a time at run time, `11-runtime.md`), **TBIOS under
 0x110** (`--raw`, its far-pointer table at 0x20-0x1E0, the font ROM's
 pointers after it left out, as 4D Driving's). No program has symbols: the C++'s
 names are addresses, and the seeds below are what discovery could not find
@@ -23,6 +23,7 @@ from the entries.
 |---|---|---|---|---|---|---|
 | OPNG | 730 | 24,424 | 22 (17) | 38 | 0 | 0 |
 | ABEL | 1,612 | 84,422 | 202 (195) | 38 | 0 | 4 |
+| ENDG (session 3) | 623 | 20,578 | 17 (12) | 46 | 0 | 0 |
 | TBIOS (composed) | 686 | 21,592 | 51 (13) | 78 | 0 | 1 |
 
 ABEL's four conflicts are its overlapping string moves (`03-executables.md`);
@@ -74,6 +75,21 @@ they gave:
 
 The scans are throw-away scripts of this session (*not* in the kit yet): what
 they found is the list in `tools/recomp.sh`, with where each group comes from.
+
+**ENDG's seeds** (session 3), before it ever ran: it is built with OPNG's and
+ABEL's library and drivers, at other addresses. Each of their seeds was
+looked for in ENDG by its code -- the first twelve instructions, numbers
+masked -- and every place with the same code taken (the timer BIOS's
+callbacks, the table of eight handlers at 0x26CB8, MetaWare's helpers, the
+IRQ handlers, the far stubs `call [var]; retf`, the int 97h driver's eight
+trampolines at 0x18E63 + 10n); then the same rules as above over ENDG's own
+code (immediates at prologues or right after a `ret` and its padding, the
+callbacks pushed before `lea eax, [ebp - 0xA]`, dwords in the data). 50
+candidates, each decoded and checked not to fall inside an instruction
+discovery has: two did, 48 left; two of those, 0x202 and 0x504, looked like
+small constants and were left out. 0x504 was met at run time (`call eax`
+returning to 0xE5FB) and put back -- the rule had it right: **47 seeds**. ENDG then ran its ending, 4 minutes and more, with no other address
+missing.
 
 ## What the kit learned (`10-fmtownskit.md`)
 

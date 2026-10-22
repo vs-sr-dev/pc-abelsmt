@@ -67,3 +67,30 @@ Checked:
   Driving's frames the same and its sound different between 8.9 and about 20 s
   -- its TBIOS's sound module waits 48 us after a chip's register when port
   0x5ED's bit 7 is clear, and 0x5ED now reads 0xFF, as on MAME.
+
+## Session 3
+
+The kit's commit **6e30773**, on f5cc3cf, pulled into the submodule at the session's end, runtime only: the pace, and a fault
+the third program showed. Tried and left out: the timer BIOS's tick at a
+phase from power-on, and port 0x6C's 1 us wait as MAME halts the CPU for it
+(neither changed ABEL's measure of the machine, 2 ticks against the
+oracle's 3; to come back to with a reason).
+
+| Change | What this game asked of it |
+|---|---|
+| `runtime`: `run386_load` | **the CPU's count goes on from one program to the next**: it was set to 0 with the registers, so the second program (ABEL) ran its first 22.8 s of clocks with the machine's time standing still (no VSYNC, interrupt or tick) |
+| `runtime`: `Machine::cpu_rate` | **a rate for the CPU** against the machine's clock (percent, 100 by default: the counts the same, the frames as before): the 386 slowed while VSYNC, the timers, the chips and the CD keep their time. `machine_time`, `cpu_time`, `set_cpu_rate` (from `now` on, at any VSYNC) |
+| `runtime`: `towns_sdl` | F5 and F6 the CPU's rate 5% down and up, F7 100%, the rate in the window's title |
+| `runtime`: `Machine::pad_held` | what `set_pad` was last given, for a host's recording |
+| `runtime`: DOS | `Machine::clock_start`: 2Ah and 2Ch from a given moment plus the machine's time, not the host's clock (a play recorded and played again the same) |
+| `runtime`: `Machine::set_count_access` | a diagnostic: VRAM's and sprite RAM's pages left unmapped so each access is counted, and the ports' (the pads' reads and port 0x6C's waits among them): where a game's CPU time goes, frame by frame (ABEL's walk against its scroll) |
+
+Checked:
+
+* The first two games, 60 s each on f5cc3cf's runtime and on this one: The
+  Queen of Duellist's and 4D Driving's frames, sound and log the same, byte
+  for byte (one program each: the count was 0 at their start either way; the
+  rate 100).
+* ABEL's three programs: 70,084 self-test vectors (ENDG's 918 among them), 0
+  failures; the throne room still the oracle's pixel for pixel; a recorded
+  play run again the same frame for frame (`11-runtime.md`).
